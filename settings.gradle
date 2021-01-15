@@ -1,2 +1,4 @@
+include ':xxfucker-annotation'
+include ':xxfucker'
 include ':app'
 rootProject.name = "XXFucker"

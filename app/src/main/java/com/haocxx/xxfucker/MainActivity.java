@@ -3,6 +3,10 @@ package com.haocxx.xxfucker;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 
+/**
+ * Created by Haocxx
+ * on 2021-1-15
+ */
 public class MainActivity extends AppCompatActivity {
 
   @Override
