@@ -1,6 +1,8 @@
 package com.haocxx.xxfucker
 
+import org.objectweb.asm.AnnotationVisitor
 import org.objectweb.asm.ClassVisitor
+import org.objectweb.asm.MethodVisitor
 import org.objectweb.asm.Opcodes
 
 /**
@@ -11,8 +13,12 @@ class XXFuckerClassVisitor extends ClassVisitor {
 
     private String mClassName
 
+    // case is a bitch class
+    private boolean mIsBitchClass
+    private String mBitchName
+
     XXFuckerClassVisitor(ClassVisitor cv) {
-        super(Opcodes.ASM5, cv)
+        super(ConfigManager.ASM_API_VERSION, cv)
     }
 
     @Override
@@ -21,5 +27,62 @@ class XXFuckerClassVisitor extends ClassVisitor {
         this.mClassName = name
 
         super.visit(version, access, name, signature, superName, interfaces)
+    }
+
+    @Override
+    AnnotationVisitor visitAnnotation(String desc, boolean visible) {
+        if (desc == "Lcom/haocxx/xxfucker/annotation/Bitch;") {
+            mIsBitchClass = true
+            return new BitchAnnotationVisitor(super.visitAnnotation(desc, visible))
+        } else {
+            return super.visitAnnotation(desc, visible)
+        }
+    }
+
+    @Override
+    MethodVisitor visitMethod(int access, String name, String desc, String signature, String[] exceptions) {
+        if ((Opcodes.ACC_STATIC & access == Opcodes.ACC_STATIC) && mIsBitchClass) {
+            return new BitchMethodVisitor(super.visitMethod(access, name, desc, signature, exceptions))
+        } else {
+            return super.visitMethod(access, name, desc, signature, exceptions)
+        }
+    }
+
+    private class BitchAnnotationVisitor extends AnnotationVisitor {
+
+        BitchAnnotationVisitor(AnnotationVisitor av) {
+            super(ConfigManager.ASM_API_VERSION, av)
+        }
+
+        @Override
+        void visit(String name, Object value) {
+            if (name == "name") {
+                mBitchName = (String) value
+            }
+            super.visit(name, value)
+        }
+    }
+
+    private class BitchMethodVisitor extends MethodVisitor {
+        private boolean mIsVaginaMethod
+
+        BitchMethodVisitor(MethodVisitor mv) {
+            super(ConfigManager.ASM_API_VERSION, mv)
+        }
+
+        @Override
+        AnnotationVisitor visitAnnotation(String desc, boolean visible) {
+            if (desc == "Lcom/haocxx/xxfucker/annotation/Vagina;") {
+                mIsVaginaMethod = true
+            }
+            return super.visitAnnotation(desc, visible)
+        }
+
+        @Override
+        void visitMethodInsn(int opcode, String owner, String name, String desc, boolean itf) {
+
+
+            super.visitMethodInsn(opcode, owner, name, desc, itf)
+        }
     }
 }
