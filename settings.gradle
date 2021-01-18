@@ -1,3 +1,7 @@
+include ':testLib3'
+include ':testLib2'
+include ':testLib1'
+include ':base'
 include ':xxfucker-annotation'
 include ':xxfucker'
 include ':app'
