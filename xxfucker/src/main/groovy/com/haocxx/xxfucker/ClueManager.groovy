@@ -5,7 +5,7 @@ package com.haocxx.xxfucker
  * on 2021-1-18
  */
 class ClueManager {
-    public Map<String, List<SemenModel>> mBitchNameToSemenMap = new HashMap<>()
+    public static Map<String, List<SemenModel>> mBitchNameToSemenMap = new HashMap<>()
 
     static class SemenModel {
         String className

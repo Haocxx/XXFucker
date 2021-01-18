@@ -41,7 +41,7 @@ class XXFuckerClassVisitor extends ClassVisitor {
 
     @Override
     MethodVisitor visitMethod(int access, String name, String desc, String signature, String[] exceptions) {
-        if ((Opcodes.ACC_STATIC & access == Opcodes.ACC_STATIC) && mIsBitchClass) {
+        if (((Opcodes.ACC_STATIC & access) == Opcodes.ACC_STATIC) && mIsBitchClass) {
             return new BitchMethodVisitor(super.visitMethod(access, name, desc, signature, exceptions))
         } else {
             return super.visitMethod(access, name, desc, signature, exceptions)
@@ -79,10 +79,16 @@ class XXFuckerClassVisitor extends ClassVisitor {
         }
 
         @Override
-        void visitMethodInsn(int opcode, String owner, String name, String desc, boolean itf) {
-
-
-            super.visitMethodInsn(opcode, owner, name, desc, itf)
+        void visitCode() {
+            List<ClueManager.SemenModel> semenModels = ClueManager.mBitchNameToSemenMap.get(mBitchName)
+            if (semenModels != null) {
+                for (ClueManager.SemenModel model : semenModels) {
+                    String className = model.className
+                    String methodName = model.methodName
+                    visitMethodInsn(Opcodes.INVOKESTATIC, className, methodName, "()V", false)
+                }
+            }
+            super.visitCode()
         }
     }
 }

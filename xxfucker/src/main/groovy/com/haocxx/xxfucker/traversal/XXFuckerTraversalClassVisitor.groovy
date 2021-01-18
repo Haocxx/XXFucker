@@ -42,7 +42,7 @@ class XXFuckerTraversalClassVisitor extends ClassVisitor {
 
     @Override
     MethodVisitor visitMethod(int access, String name, String desc, String signature, String[] exceptions) {
-        if ((Opcodes.ACC_STATIC & access == Opcodes.ACC_STATIC) && mIsFuckerClass) {
+        if (((Opcodes.ACC_STATIC & access) == Opcodes.ACC_STATIC) && mIsFuckerClass) {
             return new FuckerMethodVisitor(name, super.visitMethod(access, name, desc, signature, exceptions))
         } else {
             return super.visitMethod(access, name, desc, signature, exceptions)
