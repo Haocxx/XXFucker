@@ -3,7 +3,7 @@
 
 ## 使用场景
 如demoApp，现有工程模块依赖关系如下：
-![image](https://github.com/Haocxx/XXFucker/blob/master/intro/implement.png)
+![image](https://github.com/Haocxx/XXFucker/blob/master/intro/implement.jpg)
 
 现在三个testLib中都有一个Execute.doSomething静态方法，希望在base中有一个收口方法，调用该收口方法即可调用所有的testLib中的Execute.doSomething。
 
