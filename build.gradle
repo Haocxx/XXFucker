@@ -19,6 +19,10 @@ buildscript {
 
 allprojects {
     repositories {
+        maven {
+            url new File(rootProject.projectDir, "buildCache/plugin").toURI()
+        }
+
         google()
         jcenter()
     }
