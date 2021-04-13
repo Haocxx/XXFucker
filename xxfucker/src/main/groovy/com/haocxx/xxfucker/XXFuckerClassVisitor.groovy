@@ -64,10 +64,64 @@ class XXFuckerClassVisitor extends ClassVisitor {
     }
 
     private class BitchMethodVisitor extends MethodVisitor {
+        private hasFucked
         private boolean mIsVaginaMethod
 
         BitchMethodVisitor(MethodVisitor mv) {
             super(ConfigManager.ASM_API_VERSION, mv)
+        }
+
+        @Override
+        void visitCode() {
+            // avoid duplicate fuck
+            if (hasFucked) {
+                return
+            }
+            hasFucked = true
+            // final to do is call the method, actually with params, fucking perfect
+            List<ClueManager.SemenModel> semenModels = ClueManager.mBitchNameToSemenMap.get(mBitchName)
+            if (semenModels != null) {
+                for (ClueManager.SemenModel model : semenModels) {
+                    // do real fuck
+                    StringBuilder desc = new StringBuilder()
+                    for (int i = 0; i < model.paramDescList.size(); i++) {
+                        String paramDesc = model.paramDescList.get(i)
+                        int opcode
+                        // switch param class type, to choose corresponding operation code
+                        switch (paramDesc) {
+                            case "I":
+                                // means it`s int param
+                                opcode = Opcodes.ILOAD
+                                break
+                            case "L":
+                                // means it`s long param
+                                opcode = Opcodes.LLOAD
+                                break
+                            case "F":
+                                // means it`s float param
+                                opcode = Opcodes.FLOAD
+                                break
+                            case "D":
+                                // means it`s double param
+                                opcode = Opcodes.DLOAD
+                                break
+                            default:
+                                // means it`s any other kind of param
+                                if (paramDesc.startsWith("L")) {
+                                    opcode = Opcodes.ALOAD
+                                } else {
+                                    opcode = Opcodes.ILOAD
+                                }
+                        }
+                        visitVarInsn(opcode, i)
+                        desc.append(paramDesc)
+                    }
+                    String className = model.className
+                    String methodName = model.methodName
+                    visitMethodInsn(Opcodes.INVOKESTATIC, className, methodName, "(" + desc.toString() + ")V", false)
+                }
+            }
+            super.visitCode()
         }
 
         @Override
@@ -76,19 +130,6 @@ class XXFuckerClassVisitor extends ClassVisitor {
                 mIsVaginaMethod = true
             }
             return super.visitAnnotation(desc, visible)
-        }
-
-        @Override
-        void visitCode() {
-            List<ClueManager.SemenModel> semenModels = ClueManager.mBitchNameToSemenMap.get(mBitchName)
-            if (semenModels != null) {
-                for (ClueManager.SemenModel model : semenModels) {
-                    String className = model.className
-                    String methodName = model.methodName
-                    visitMethodInsn(Opcodes.INVOKESTATIC, className, methodName, "()V", false)
-                }
-            }
-            super.visitCode()
         }
     }
 }

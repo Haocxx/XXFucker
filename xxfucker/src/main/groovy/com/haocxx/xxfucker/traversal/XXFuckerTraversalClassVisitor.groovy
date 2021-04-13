@@ -4,6 +4,7 @@ import com.haocxx.xxfucker.ClueManager
 import com.haocxx.xxfucker.ConfigManager
 import org.objectweb.asm.AnnotationVisitor
 import org.objectweb.asm.ClassVisitor
+import org.objectweb.asm.Label
 import org.objectweb.asm.MethodVisitor
 import org.objectweb.asm.Opcodes
 
@@ -51,6 +52,7 @@ class XXFuckerTraversalClassVisitor extends ClassVisitor {
 
     private class FuckerMethodVisitor extends MethodVisitor {
         private String mMethodName
+        private String mBitchName
 
         FuckerMethodVisitor(String methodName, MethodVisitor mv) {
             super(ConfigManager.ASM_API_VERSION, mv)
@@ -66,6 +68,23 @@ class XXFuckerTraversalClassVisitor extends ClassVisitor {
             }
         }
 
+        @Override
+        void visitLocalVariable(String name, String desc, String signature, Label start, Label end, int index) {
+            super.visitLocalVariable(name, desc, signature, start, end, index)
+            // this is a weird method, params is regarding as local variable, I can`t believe it
+            // I have to compare names with {visitParameter} to find out true params
+            List<ClueManager.SemenModel> semenList = ClueManager.mBitchNameToSemenMap.get(mBitchName)
+            if (semenList != null) {
+                for (ClueManager.SemenModel semenModel : semenList) {
+                    if (mClassName == semenModel.className && mMethodName == semenModel.methodName) {
+                        if (!semenModel.paramDescList.contains(desc)) {
+                            semenModel.paramDescList.add(desc)
+                        }
+                    }
+                }
+            }
+        }
+
         private class SemenAnnotationVisitor extends AnnotationVisitor {
 
             SemenAnnotationVisitor(AnnotationVisitor av) {
@@ -76,6 +95,7 @@ class XXFuckerTraversalClassVisitor extends ClassVisitor {
             void visit(String name, Object value) {
                 if (name == "bitchName") {
                     String bitchName = (String) value
+                    mBitchName = bitchName
                     List<ClueManager.SemenModel> semenList = ClueManager.mBitchNameToSemenMap.get(bitchName)
                     if (semenList == null) {
                         semenList = new ArrayList<>()

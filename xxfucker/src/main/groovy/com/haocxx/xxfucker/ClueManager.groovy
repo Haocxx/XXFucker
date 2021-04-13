@@ -10,5 +10,7 @@ class ClueManager {
     static class SemenModel {
         String className
         String methodName
+        // save param class desc in order, call while do real fuck
+        List<String> paramDescList = new ArrayList<>()
     }
 }

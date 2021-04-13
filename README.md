@@ -62,7 +62,8 @@ dependencies {
 }
 ```
 ## 使用方法
-1.声明收口的，需要被插入指令到方法体中的静态方法。为收口静态方法所在的类添加@Bitch注解，填入name字符串作为该Bitch类的唯一标识。然后为被注入的静态方法添加@Vagina注解，讲该方法声明为Vagina方法。**每个Bitch类只能有一个Vagina方法，且Vagina方法必须为静态方法。**
+1.声明收口的，需要被插入指令到方法体中的静态方法。为收口静态方法所在的类添加@Bitch注解，填入name字符串作为该Bitch类的唯一标识。然后为被注入的静态方法添加@Vagina
+注解，讲该方法声明为Vagina方法。**每个Bitch类只能有一个Vagina方法，且Vagina方法必须为静态方法，方法必须为空方法。**
 ```Java
 @Bitch(name =TestIOC.NAME)
 public class TestIOC {
@@ -71,10 +72,12 @@ public class TestIOC {
   @Vagina
   public static void executeAll() {
     // something will be there while compile
+    // DO NOT WRITE ANYTHING
   }
 }
 ```
-2.标记需要被收口方法调用的静态方法。为该静态方法所在的类添加@Fucker注解，为方法添加@Semen注解，bitchName即为目标收口Bitch类的name。
+2.标记需要被收口方法调用的静态方法。为该静态方法所在的类添加@Fucker注解，为方法添加@Semen注解，bitchName即为目标收口Bitch类的name。Semen
+方法需要为public可见性。
 ```Java
 @Fucker
 public class Execute1 {
@@ -126,3 +129,6 @@ public class MainApplication extends Application {
 2021-01-19 14:08:26.756 25226-25226/com.haocxx.xxfucker D/Execute2: it works.
 2021-01-19 14:08:26.756 25226-25226/com.haocxx.xxfucker D/Execute3: it works.
 ```
+
+## UPDATE 1.0.1
+·支持IOC方法参数传入。Vagina方法和Semen需要都为无参或有相同的参数格式。
