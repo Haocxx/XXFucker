@@ -1,3 +1,7 @@
+# 更新日志
+## UPDATE 1.0.1
+·支持IOC方法参数传入。Vagina方法和Semen需要都为无参或有相同的参数格式。
+
 # XXFucker
 使用代码插桩，复刻一个做IOC操作的库。
 
@@ -129,6 +133,3 @@ public class MainApplication extends Application {
 2021-01-19 14:08:26.756 25226-25226/com.haocxx.xxfucker D/Execute2: it works.
 2021-01-19 14:08:26.756 25226-25226/com.haocxx.xxfucker D/Execute3: it works.
 ```
-
-## UPDATE 1.0.1
-·支持IOC方法参数传入。Vagina方法和Semen需要都为无参或有相同的参数格式。
